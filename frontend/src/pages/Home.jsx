@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { api } from "../services/api";
 
 const BASE = import.meta.env.VITE_STORAGE_URL || "http://127.0.0.1:8000/storage";
-const imgUrl = (path) => path ? `${BASE}/${path}` : null;
+const imgUrl = (path) => {
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  return `${BASE}/${path}`;
+};
 
 function Home() {
   const [cars, setCars] = useState([]);
@@ -12,6 +16,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [fuelFilter, setFuelFilter] = useState("");
+  const [failedImages, setFailedImages] = useState(new Set());
   const [dark, setDark] = useState(() => {
     const stored = localStorage.getItem("theme");
     return stored ? stored === "dark" : true;
@@ -46,6 +51,10 @@ function Home() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleImgError = (id) => {
+    setFailedImages((prev) => new Set([...prev, id]));
   };
 
   return (
@@ -121,8 +130,8 @@ function Home() {
           {cars.filter(c => c.brand.toLowerCase().includes(search.toLowerCase()) && (fuelFilter === "" || c.fuel === fuelFilter)).map((car) => (
             <div key={car.id} className="car-card-custom">
               <div className="car-card-img-wrap">
-                {car.image ? (
-                  <img src={imgUrl(car.image)} alt={car.brand} className="car-card-img" onError={(e) => { e.target.style.display = "none"; e.target.parentElement.innerHTML = `<div class=\"car-card-placeholder\">${car.brand.charAt(0)}${car.model.charAt(0)}</div>`; }} />
+                {car.image && !failedImages.has(car.id) ? (
+                  <img src={imgUrl(car.image)} alt={car.brand} className="car-card-img" onError={() => handleImgError(car.id)} />
                 ) : (
                   <div className="car-card-placeholder">{car.brand.charAt(0)}{car.model.charAt(0)}</div>
                 )}
@@ -208,21 +217,11 @@ function Home() {
           <div className="contact-item">
             <div className="contact-icon-box">
               <svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" width="24" height="24">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </div>
-            <h4>Address</h4>
-            <p>123 Rue de la Liberté, Casablanca, Morocco</p>
-          </div>
-          <div className="contact-item">
-            <div className="contact-icon-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" width="24" height="24">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
             </div>
             <h4>Phone</h4>
-            <p><a href="tel:+212773295034" style={{color:"inherit",textDecoration:"none"}}>+212 7 73-29-50-34</a></p>
+            <p><a href="tel:+212773295034" style={{ color: "inherit" }}>+212 7 73-29-50-34</a></p>
           </div>
           <div className="contact-item">
             <div className="contact-icon-box">
@@ -232,7 +231,17 @@ function Home() {
               </svg>
             </div>
             <h4>Email</h4>
-            <p><a href="mailto:zakaayoub1234@gmail.com" style={{color:"inherit",textDecoration:"none"}}>zakaayoub1234@gmail.com</a></p>
+            <p><a href="mailto:zakaayoub1234@gmail.com" style={{ color: "inherit" }}>zakaayoub1234@gmail.com</a></p>
+          </div>
+          <div className="contact-item">
+            <div className="contact-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" width="24" height="24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            <h4>Location</h4>
+            <p>Casablanca, Morocco</p>
           </div>
           <div className="contact-item">
             <div className="contact-icon-box">
@@ -241,26 +250,22 @@ function Home() {
               </svg>
             </div>
             <h4>WhatsApp</h4>
-            <p><a href="https://wa.me/212773295034" target="_blank" rel="noopener noreferrer" style={{color:"inherit",textDecoration:"none"}}>+212 7 73-29-50-34</a></p>
+            <p><a href="https://wa.me/212773295034" target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>Chat with us</a></p>
           </div>
         </div>
       </section>
 
-      <a href="https://wa.me/212773295034" target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Contact us on WhatsApp">
-        <svg viewBox="0 0 24 24" fill="#fff" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-
       <footer className="footer">
         <div className="footer-inner">
-          <div className="footer-brand">
-            <svg viewBox="0 0 50 50" width="28" height="28">
+          <span className="footer-brand">
+            <svg viewBox="0 0 50 50" width="20" height="20">
               <rect width="50" height="50" rx="12" fill="#D4AF37" />
               <path d="M14 35V20l11-8 11 8v15H14z" fill="#1A1A1A" />
               <circle cx="25" cy="28" r="2" fill="#D4AF37" />
             </svg>
-            <span>CarRental</span>
-          </div>
-          <p>&copy; 2026 CarRental ERP. All rights reserved.</p>
+            CarRental
+          </span>
+          <span>© {new Date().getFullYear()} All rights reserved</span>
         </div>
       </footer>
 
@@ -272,20 +277,20 @@ function Home() {
               <div className="modal-success">
                 <div className="success-icon">✓</div>
                 <h3>Request Sent!</h3>
-                <p>Your booking request for <strong>{showForm.brand} {showForm.model}</strong> has been submitted. We'll contact you shortly to confirm.</p>
-                <button className="btn-gold" onClick={() => setShowForm(null)}>Done</button>
+                <p>Thank you! We've received your booking request for the {showForm.brand} {showForm.model}. We'll contact you shortly.</p>
+                <button className="btn-gold" onClick={() => setShowForm(null)}>Close</button>
               </div>
             ) : (
               <>
                 <div className="modal-header">
-                  <h3>Book: {showForm.brand} {showForm.model}</h3>
+                  <h3>{showForm.brand} {showForm.model} {showForm.year}</h3>
                   <p className="modal-price">{showForm.price_per_day} MAD / day</p>
                 </div>
                 <form className="booking-form" onSubmit={handleSubmit}>
                   <div className="form-row">
                     <div className="form-group">
                       <label>Full Name *</label>
-                      <input type="text" required value={formData.customer_name} onChange={(e) => setFormData({ ...formData, customer_name: e.target.value })} placeholder="Your name" />
+                      <input type="text" required value={formData.customer_name} onChange={(e) => setFormData({ ...formData, customer_name: e.target.value })} placeholder="Your full name" />
                     </div>
                     <div className="form-group">
                       <label>Email *</label>
@@ -295,11 +300,11 @@ function Home() {
                   <div className="form-row">
                     <div className="form-group">
                       <label>Phone *</label>
-                      <input type="tel" required value={formData.customer_phone} onChange={(e) => setFormData({ ...formData, customer_phone: e.target.value })} placeholder="06 XX XX XX XX" />
+                      <input type="tel" required value={formData.customer_phone} onChange={(e) => setFormData({ ...formData, customer_phone: e.target.value })} placeholder="+212 6XX XXXXXX" />
                     </div>
                     <div className="form-group">
-                      <label>Car</label>
-                      <input type="text" value={`${showForm.brand} ${showForm.model} ${showForm.year}`} disabled />
+                      <label>Car Model</label>
+                      <input type="text" disabled value={`${showForm.brand} ${showForm.model} ${showForm.year}`} />
                     </div>
                   </div>
                   <div className="form-row">
@@ -313,11 +318,11 @@ function Home() {
                     </div>
                   </div>
                   <div className="form-group">
-                    <label>Message (optional)</label>
-                    <textarea value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} placeholder="Any special requests..." rows="3" />
+                    <label>Message (Optional)</label>
+                    <textarea value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} placeholder="Any special requests?" rows="3" />
                   </div>
                   <button type="submit" className="btn-gold" disabled={loading} style={{ width: "100%", justifyContent: "center" }}>
-                    {loading ? "Sending..." : "Submit Request"}
+                    {loading ? "Sending..." : "Send Request"}
                   </button>
                 </form>
               </>
@@ -325,6 +330,12 @@ function Home() {
           </div>
         </div>
       )}
+
+      <a href="https://wa.me/212773295034" target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" fill="white" width="28" height="28">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+      </a>
     </div>
   );
 }

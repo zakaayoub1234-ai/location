@@ -17,6 +17,8 @@ function Cars() {
   const [form, setForm] = useState({ brand: "", model: "", year: "", plate: "", fuel: "Essence", transmission: "Manual", seats: 5, price_per_day: "", description: "", status: "available" });
   const [image, setImage] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [failedImages, setFailedImages] = useState(new Set());
+  const handleImgError = (id) => setFailedImages((prev) => new Set([...prev, id]));
 
   const load = async () => {
     try {
@@ -74,7 +76,11 @@ function Cars() {
   };
 
   const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || "http://127.0.0.1:8000/storage";
-  const imgUrl = (path) => path ? `${STORAGE_URL}/${path}` : null;
+  const imgUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith("http")) return path;
+    return `${STORAGE_URL}/${path}`;
+  };
 
   return (
     <>
@@ -115,8 +121,8 @@ function Cars() {
                   <tr key={car.id}>
                     <td>
                       <div className="car-cell">
-                        <div className="car-avatar" style={car.image ? { background: "none", padding: 0 } : {}}>
-                          {car.image ? <img src={imgUrl(car.image)} alt={car.brand} className="car-thumb" /> : car.brand.charAt(0) + car.model.charAt(0)}
+                        <div className="car-avatar" style={(car.image && !failedImages.has(car.id)) ? { background: "none", padding: 0 } : {}}>
+                          {(car.image && !failedImages.has(car.id)) ? <img src={imgUrl(car.image)} alt={car.brand} className="car-thumb" onError={() => handleImgError(car.id)} /> : car.brand.charAt(0) + car.model.charAt(0)}
                         </div>
                         <div>
                           <div className="car-name">{car.brand} {car.model}</div>
