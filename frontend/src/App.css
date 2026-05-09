@@ -1210,6 +1210,84 @@
   min-height: 100vh;
   background: #fafafa;
   font-family: "Inter", system-ui, sans-serif;
+  transition: background 0.3s;
+}
+
+[data-theme="dark"] .home-page {
+  background: var(--bg-dark);
+}
+
+[data-theme="dark"] .home-page .navbar {
+  background: rgba(18,18,26,0.97);
+  border-bottom-color: var(--glass-border);
+}
+
+[data-theme="dark"] .home-page .nav-brand-text {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .home-page .nav-links a {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .home-page .nav-links a:hover {
+  color: var(--gold);
+}
+
+[data-theme="dark"] .home-page .car-card-custom {
+  background: var(--bg-card);
+  border-color: var(--glass-border);
+}
+
+[data-theme="dark"] .home-page .car-card-custom:hover {
+  border-color: var(--gold);
+}
+
+[data-theme="dark"] .home-page .car-card-content h3,
+[data-theme="dark"] .home-page .car-card-price {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .home-page .car-card-desc {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .home-page .car-card-meta span {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .home-page .contact-item {
+  border-color: var(--glass-border);
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .home-page .contact-item h4 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .home-page .contact-item p {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .home-page .footer {
+  border-color: var(--glass-border);
+}
+
+[data-theme="dark"] .home-page .footer-inner {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .home-page .footer-brand {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .home-page .section-header h2 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .home-page .section-header p {
+  color: var(--text-secondary);
 }
 
 /* NAVBAR */
@@ -1268,6 +1346,40 @@
 }
 
 .nav-cta:hover { background: #C5A028 !important; color: #1A1A1A !important; }
+
+.nav-theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  background: transparent;
+  border: 1.5px solid #ddd;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-theme-btn:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+}
+
+.nav-theme-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+[data-theme="dark"] .nav-theme-btn {
+  border-color: var(--glass-border);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .nav-theme-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
 
 /* HERO */
 .hero {
@@ -1825,6 +1937,18 @@
 .filter-select:focus {
   border-color: #D4AF37;
   outline: none;
+}
+
+[data-theme="dark"] .filter-input,
+[data-theme="dark"] .filter-select {
+  background: var(--bg-elevated);
+  border-color: var(--glass-border);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .filter-input:focus,
+[data-theme="dark"] .filter-select:focus {
+  border-color: var(--gold);
 }
 
 /* ============= MODAL LARGE ============= */
