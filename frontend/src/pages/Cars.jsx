@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
 import { api } from "../services/api";
 
 const statusColors = {
@@ -78,8 +77,7 @@ function Cars() {
   const imgUrl = (path) => path ? `${STORAGE_URL}/${path}` : null;
 
   return (
-    <div className="dashboard-content">
-      <Header />
+    <>
       <main className="main-content">
         <div className="page-header">
           <div>
@@ -157,7 +155,6 @@ function Cars() {
         </div>
       </main>
 
-      {/* Add/Edit Car Modal */}
       {showForm && (
         <div className="modal-overlay" onClick={() => setShowForm(false)}>
           <div className="modal modal-lg" onClick={(e) => e.stopPropagation()}>
@@ -240,7 +237,7 @@ function Cars() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

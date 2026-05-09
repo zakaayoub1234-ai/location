@@ -1,5 +1,3 @@
-import Header from "../components/Header";
-
 const rentals = [
   { id: "#R001", customer: "Ahmed Benani", car: "Toyota Camry 2024", start: "2026-05-08", end: "2026-05-15", status: "Active", amount: "3,500 MAD" },
   { id: "#R002", customer: "Sara Lahlou", car: "Mercedes GLC 2023", start: "2026-05-07", end: "2026-05-14", status: "Active", amount: "8,400 MAD" },
@@ -11,9 +9,7 @@ const statusColors = { Active: "#10b981", Completed: "#6b7280", Pending: "#f59e0
 
 function Rentals() {
   return (
-    <div className="dashboard-content">
-      <Header />
-      <main className="main-content">
+    <main className="main-content">
         <div className="page-header">
           <div>
             <h1 className="page-title">Rentals</h1>
@@ -62,7 +58,6 @@ function Rentals() {
           </div>
         </div>
       </main>
-    </div>
   );
 }
 

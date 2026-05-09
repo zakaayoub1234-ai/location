@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
 import { api } from "../services/api";
 
 const statusColors = {
@@ -31,9 +30,7 @@ function Orders() {
   };
 
   return (
-    <div className="dashboard-content">
-      <Header />
-      <main className="main-content">
+    <main className="main-content">
         <div className="page-header">
           <div>
             <h1 className="page-title">Booking Requests</h1>
@@ -115,7 +112,6 @@ function Orders() {
           </div>
         </div>
       </main>
-    </div>
   );
 }
 

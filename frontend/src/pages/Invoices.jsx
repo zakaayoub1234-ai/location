@@ -1,5 +1,3 @@
-import Header from "../components/Header";
-
 const invoices = [
   { id: "#INV-001", customer: "Ahmed Benani", rental: "#R001", date: "2026-05-08", status: "Paid", amount: "3,500 MAD" },
   { id: "#INV-002", customer: "Sara Lahlou", rental: "#R002", date: "2026-05-07", status: "Unpaid", amount: "8,400 MAD" },
@@ -11,9 +9,7 @@ const statusColors = { Paid: "#10b981", Unpaid: "#ef4444", Pending: "#f59e0b" };
 
 function Invoices() {
   return (
-    <div className="dashboard-content">
-      <Header />
-      <main className="main-content">
+    <main className="main-content">
         <div className="page-header">
           <div>
             <h1 className="page-title">Invoices</h1>
@@ -60,7 +56,6 @@ function Invoices() {
           </div>
         </div>
       </main>
-    </div>
   );
 }
 

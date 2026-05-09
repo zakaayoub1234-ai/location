@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
 import { api } from "../services/api";
-
-const API_URL = import.meta.env.VITE_API_URL || "";
 
 function StatCard({ title, value, subtitle, icon, gradient }) {
   return (
@@ -56,9 +53,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard-content">
-      <Header />
-      <main className="main-content">
+    <main className="main-content">
         <div className="page-header">
           <div>
             <h1 className="page-title">Dashboard</h1>
@@ -214,7 +209,6 @@ function Dashboard() {
           </div>
         </div>
       </main>
-    </div>
   );
 }
 

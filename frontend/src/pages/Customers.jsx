@@ -1,5 +1,3 @@
-import Header from "../components/Header";
-
 const customers = [
   { id: 1, name: "Ahmed Benani", email: "ahmed@example.com", phone: "06 12 34 56 78", rentals: 5, total: "12,500 MAD" },
   { id: 2, name: "Sara Lahlou", email: "sara@example.com", phone: "06 98 76 54 32", rentals: 3, total: "8,400 MAD" },
@@ -10,9 +8,7 @@ const customers = [
 
 function Customers() {
   return (
-    <div className="dashboard-content">
-      <Header />
-      <main className="main-content">
+    <main className="main-content">
         <div className="page-header">
           <div>
             <h1 className="page-title">Customers</h1>
@@ -64,7 +60,6 @@ function Customers() {
           </div>
         </div>
       </main>
-    </div>
   );
 }
 
