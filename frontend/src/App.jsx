@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,18 +9,29 @@ import Rentals from "./pages/Rentals";
 import Invoices from "./pages/Invoices";
 import Orders from "./pages/Orders";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 import Chat from "./components/Chat";
 import "./App.css";
 
 const token = () => localStorage.getItem("token");
 
 function ProtectedLayout({ children }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   if (!token()) return <Navigate to="/login" replace />;
   return (
     <div className="app-layout">
-      <Sidebar onLogout={() => { localStorage.clear(); window.location.href = "/login"; }} />
-      {children}
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onLogout={() => { localStorage.clear(); window.location.href = "/login"; }}
+      />
+      <div className="dashboard-content">
+        <Header onMenuClick={() => setSidebarOpen(true)} />
+        {children}
+      </div>
       <Chat />
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
     </div>
   );
 }

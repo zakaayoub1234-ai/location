@@ -53,16 +53,25 @@ const icons = {
   ),
 };
 
-function Sidebar({ onLogout }) {
+function Sidebar({ sidebarOpen, onClose, onLogout }) {
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
       <div className="sidebar-brand">
-        <svg viewBox="0 0 50 50" fill="none" className="sidebar-logo-icon">
-          <rect width="50" height="50" rx="12" fill="#4F46E5" />
-          <path d="M14 35V20l11-8 11 8v15H14z" fill="white" />
-          <circle cx="25" cy="28" r="2" fill="#4F46E5" />
-        </svg>
-        <span className="sidebar-brand-text">CarRental</span>
+        <div className="sidebar-brand-inner">
+          <div className="sidebar-logo-icon">
+            <svg viewBox="0 0 50 50" fill="none" width="36" height="36">
+              <rect width="50" height="50" rx="12" fill="#D4AF37" />
+              <path d="M14 35V20l11-8 11 8v15H14z" fill="#1A1A1A" />
+              <circle cx="25" cy="28" r="2" fill="#D4AF37" />
+            </svg>
+          </div>
+          <span className="sidebar-brand-text">CarRental</span>
+        </div>
+        <button className="sidebar-close-btn" onClick={onClose}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
 
       <nav className="sidebar-nav">
@@ -71,6 +80,7 @@ function Sidebar({ onLogout }) {
             key={item.path}
             to={item.path}
             className={({ isActive }) => `nav-item ${isActive ? "active" : ""}`}
+            onClick={onClose}
           >
             <span className="nav-icon">{icons[item.icon]}</span>
             <span className="nav-label">{item.label}</span>

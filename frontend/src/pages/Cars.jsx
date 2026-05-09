@@ -74,7 +74,8 @@ function Cars() {
     }
   };
 
-  const imgUrl = (path) => path ? `http://127.0.0.1:8000/storage/${path}` : null;
+  const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || "http://127.0.0.1:8000/storage";
+  const imgUrl = (path) => path ? `${STORAGE_URL}/${path}` : null;
 
   return (
     <div className="dashboard-content">
@@ -232,7 +233,7 @@ function Cars() {
                 <label>Description</label>
                 <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Car description..." rows="3" />
               </div>
-              <button type="submit" className="home-cta" disabled={saving} style={{ width: "100%", justifyContent: "center" }}>
+              <button type="submit" className="btn-primary" disabled={saving} style={{ width: "100%", justifyContent: "center" }}>
                 {saving ? "Saving..." : (editing ? "Update Car" : "Add Car")}
               </button>
             </form>

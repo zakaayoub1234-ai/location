@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
 
-const imgUrl = (path) => path ? `http://127.0.0.1:8000/storage/${path}` : null;
+const BASE = import.meta.env.VITE_STORAGE_URL || "http://127.0.0.1:8000/storage";
+const imgUrl = (path) => path ? `${BASE}/${path}` : null;
 
 function Home() {
   const [cars, setCars] = useState([]);

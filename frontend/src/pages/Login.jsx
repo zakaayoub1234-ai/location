@@ -37,10 +37,10 @@ function Login() {
       <div className="login-card">
         <div className="login-header">
           <div className="login-logo">
-            <svg viewBox="0 0 50 50" fill="none">
-              <rect width="50" height="50" rx="12" fill="#4F46E5" />
-              <path d="M14 35V20l11-8 11 8v15H14z" fill="white" />
-              <circle cx="25" cy="28" r="2" fill="#4F46E5" />
+            <svg viewBox="0 0 50 50" fill="none" width="40" height="40">
+              <rect width="50" height="50" rx="12" fill="#D4AF37" />
+              <path d="M14 35V20l11-8 11 8v15H14z" fill="#1A1A1A" />
+              <circle cx="25" cy="28" r="2" fill="#D4AF37" />
             </svg>
             <span className="login-brand">CarRental ERP</span>
           </div>
