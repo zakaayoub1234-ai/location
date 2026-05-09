@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <rect x="0" y="0" width="50" height="50" rx="12" fill="#4F46E5"/>
+  <path d="M14 35V20l11-8 11 8v15H14z" fill="white" stroke="#C7D2FE" stroke-width="1"/>
+  <path d="M17 28h16M20 22h10M20 34h10" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="25" cy="28" r="2" fill="#4F46E5"/>
+  <text x="60" y="34" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#1F2937">CarRental</text>
+  <text x="60" y="34" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#6B7280" dx="120">ERP</text>
+</svg>
